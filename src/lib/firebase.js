@@ -12,13 +12,12 @@ const firebaseConfig = {
   // messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   // appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 
-  apiKey: "AIzaSyDD-BryPOIVRk4BzKN_m5GmV3O_vCimoyw",
-  authDomain: "edukyuadmin.firebaseapp.com",
-  projectId: "edukyuadmin",
-  storageBucket: "edukyuadmin.firebasestorage.app",
-  messagingSenderId: "886723884559",
-  appId: "1:886723884559:web:50c676c0c7b9200c92557a",
-  measurementId: "G-0Z3391L40H"
+  apiKey: "AIzaSyCU4sW45ln5H4Idg1tayTpZWRrCh53_vng",
+  authDomain: "edukyuadminpanel.firebaseapp.com",
+  projectId: "edukyuadminpanel",
+  storageBucket: "edukyuadminpanel.firebasestorage.app",
+  messagingSenderId: "274103392220",
+  appId: "1:274103392220:web:332b286542ce55e391a119"
 };
 
 // Initialize Firebase
@@ -30,3 +29,21 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 export default app;
+
+// // Import the functions you need from the SDKs you need
+// import { initializeApp } from "firebase/app";
+// // TODO: Add SDKs for Firebase products that you want to use
+// // https://firebase.google.com/docs/web/setup#available-libraries
+
+// // Your web app's Firebase configuration
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCU4sW45ln5H4Idg1tayTpZWRrCh53_vng",
+//   authDomain: "edukyuadminpanel.firebaseapp.com",
+//   projectId: "edukyuadminpanel",
+//   storageBucket: "edukyuadminpanel.firebasestorage.app",
+//   messagingSenderId: "274103392220",
+//   appId: "1:274103392220:web:332b286542ce55e391a119"
+// };
+
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);

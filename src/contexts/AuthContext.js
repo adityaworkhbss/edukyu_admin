@@ -21,21 +21,38 @@ export const AuthProvider = ({ children }) => {
   const [userIdentity, setUserIdentity] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const signup = async (email, password, userIdentity) => {
+  const signup = async (email, password, userIdentity, additionalData = {}) => {
     try {
+      // Create user account with Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      // Store user identity in Firestore using the user's UID as document ID
-      await setDoc(doc(db, 'users', user.uid), {
+      // Prepare user data for Firestore
+      const userData = {
+        uid: user.uid,
         email: user.email,
-        password: password, // Store password as per your schema
-        userIdentity: userIdentity,
-        createdAt: new Date()
+        userIdentity: parseInt(userIdentity),
+        role: userIdentity === '1' ? 'Blog Manager' : 'Content Manager',
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        lastLogin: new Date(),
+        ...additionalData // Any additional data passed during signup
+      };
+      
+      // Store user data in Firestore using the user's UID as document ID
+      await setDoc(doc(db, 'users', user.uid), userData);
+      
+      // Also store in an admin collection for easier management
+      await setDoc(doc(db, 'admin_users', user.uid), {
+        ...userData,
+        signupMethod: 'email_password'
       });
       
+      console.log('User successfully created and saved to database:', user.uid);
       return userCredential;
     } catch (error) {
+      console.error('Error in signup process:', error);
       throw error;
     }
   };
@@ -63,6 +80,14 @@ export const AuthProvider = ({ children }) => {
       if (userDoc.exists()) {
         const userData = userDoc.data();
         setUserIdentity(userData.userIdentity);
+        
+        // Update last login timestamp
+        await setDoc(doc(db, 'users', user.uid), {
+          ...userData,
+          lastLogin: new Date(),
+          updatedAt: new Date()
+        }, { merge: true });
+        
         return userData.userIdentity;
       }
     } catch (error) {

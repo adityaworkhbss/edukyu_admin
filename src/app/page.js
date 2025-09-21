@@ -3,6 +3,21 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { db } from '@/lib/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+
+// async function addSampleData() {
+//   try {
+//     const docRef = await addDoc(collection(db, "sampleCollection"), {
+//       name: "Sample Name",
+//       description: "This is a sample description",
+//       createdAt: new Date()
+//     });
+//     console.log("Document written with ID: ", docRef.id);
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//   }
+// }
 
 export default function Home() {
   const { currentUser, loading } = useAuth();
@@ -18,13 +33,12 @@ export default function Home() {
     }
   }, [currentUser, loading, router]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-      </div>
-    );
-  }
+  
+  
 
   return null;
+
+  // return (<>
+  //   <button onClick={addSampleData} className='cursor-pointer'>Add Sample Data</button>
+  // </>);
 }

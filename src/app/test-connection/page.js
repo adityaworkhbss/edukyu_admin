@@ -2,10 +2,16 @@
 
 import { useState } from 'react';
 import { testFirebaseConnection, getUserByEmail } from '@/utils/testConnection';
-import { Play, Database, Users, CheckCircle, XCircle } from 'lucide-react';
+import { testSignupFlow, testLoginFlow, testDatabaseOperations } from '@/utils/testSignup';
+import { testAuthEnabled, checkFirebaseConfig } from '@/utils/testAuth';
+import { Play, Database, Users, CheckCircle, XCircle, UserPlus, LogIn, Shield } from 'lucide-react';
 
 export default function TestConnectionPage() {
   const [testResults, setTestResults] = useState(null);
+  const [signupResults, setSignupResults] = useState(null);
+  const [loginResults, setLoginResults] = useState(null);
+  const [dbResults, setDbResults] = useState(null);
+  const [authResults, setAuthResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [userResult, setUserResult] = useState(null);
@@ -19,6 +25,57 @@ export default function TestConnectionPage() {
       setTestResults(results);
     } catch (error) {
       setTestResults({
+        success: false,
+        error: error.message
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runSignupTest = async () => {
+    setLoading(true);
+    setSignupResults(null);
+    
+    try {
+      const results = await testSignupFlow();
+      setSignupResults(results);
+    } catch (error) {
+      setSignupResults({
+        success: false,
+        error: error.message
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runDatabaseTest = async () => {
+    setLoading(true);
+    setDbResults(null);
+    
+    try {
+      const results = await testDatabaseOperations();
+      setDbResults(results);
+    } catch (error) {
+      setDbResults({
+        success: false,
+        error: error.message
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const runAuthTest = async () => {
+    setLoading(true);
+    setAuthResults(null);
+    
+    try {
+      const results = await testAuthEnabled();
+      setAuthResults(results);
+    } catch (error) {
+      setAuthResults({
         success: false,
         error: error.message
       });
@@ -56,6 +113,73 @@ export default function TestConnectionPage() {
         </div>
 
         <div className="mt-8 space-y-8">
+          {/* Authentication Test - Priority test for the current issue */}
+          <div className="bg-white shadow rounded-lg p-6 border-l-4 border-red-500">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Shield className="h-8 w-8 text-red-600" />
+                <div className="ml-4">
+                  <h2 className="text-lg font-medium text-gray-900">Authentication Test</h2>
+                  <p className="text-sm text-gray-500">Test if Email/Password authentication is enabled (Fix for: auth/operation-not-allowed)</p>
+                </div>
+              </div>
+              <button
+                onClick={runAuthTest}
+                disabled={loading}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
+              >
+                <Play className="h-4 w-4 mr-2" />
+                {loading ? 'Testing...' : 'Test Auth'}
+              </button>
+            </div>
+
+            {authResults && (
+              <div className="mt-6">
+                {authResults.success ? (
+                  <div className="bg-green-50 border border-green-200 rounded-md p-4">
+                    <div className="flex">
+                      <CheckCircle className="h-5 w-5 text-green-400" />
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-green-800">
+                          Authentication Enabled ✅
+                        </h3>
+                        <div className="mt-2 text-sm text-green-700">
+                          <p><strong>Message:</strong> {authResults.message}</p>
+                          <p><strong>Test Email:</strong> {authResults.testEmail}</p>
+                          <p><strong>User ID:</strong> {authResults.userId}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                    <div className="flex">
+                      <XCircle className="h-5 w-5 text-red-400" />
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-red-800">
+                          Authentication Not Enabled ❌
+                        </h3>
+                        <div className="mt-2 text-sm text-red-700">
+                          <p><strong>Error:</strong> {authResults.message}</p>
+                          {authResults.solution && (
+                            <div className="mt-3">
+                              <p className="font-medium">Solution:</p>
+                              <ul className="mt-1 list-disc list-inside space-y-1">
+                                {authResults.solution.map((step, index) => (
+                                  <li key={index}>{step}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           {/* Connection Test */}
           <div className="bg-white shadow rounded-lg p-6">
             <div className="flex items-center justify-between">
@@ -185,6 +309,119 @@ export default function TestConnectionPage() {
                       <div className="ml-3">
                         <h3 className="text-sm font-medium text-yellow-800">User Not Found</h3>
                         <p className="text-sm text-yellow-700">No user found with that email address</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Signup Flow Test */}
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <UserPlus className="h-8 w-8 text-green-600" />
+                <div className="ml-4">
+                  <h2 className="text-lg font-medium text-gray-900">Signup Flow Test</h2>
+                  <p className="text-sm text-gray-500">Test the complete user signup and database save process</p>
+                </div>
+              </div>
+              <button
+                onClick={runSignupTest}
+                disabled={loading}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
+              >
+                <Play className="h-4 w-4 mr-2" />
+                {loading ? 'Testing...' : 'Test Signup'}
+              </button>
+            </div>
+
+            {signupResults && (
+              <div className="mt-6">
+                {signupResults.success ? (
+                  <div className="bg-green-50 border border-green-200 rounded-md p-4">
+                    <div className="flex">
+                      <CheckCircle className="h-5 w-5 text-green-400" />
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-green-800">
+                          Signup Test Successful!
+                        </h3>
+                        <div className="mt-2 text-sm text-green-700">
+                          <p><strong>Test Email:</strong> {signupResults.testEmail}</p>
+                          <p><strong>User ID:</strong> {signupResults.userId}</p>
+                          <p><strong>Message:</strong> {signupResults.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                    <div className="flex">
+                      <XCircle className="h-5 w-5 text-red-400" />
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-red-800">
+                          Signup Test Failed
+                        </h3>
+                        <div className="mt-2 text-sm text-red-700">
+                          <p>{signupResults.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Database Operations Test */}
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Database className="h-8 w-8 text-purple-600" />
+                <div className="ml-4">
+                  <h2 className="text-lg font-medium text-gray-900">Database Operations Test</h2>
+                  <p className="text-sm text-gray-500">Test basic Firestore read/write operations</p>
+                </div>
+              </div>
+              <button
+                onClick={runDatabaseTest}
+                disabled={loading}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50"
+              >
+                <Play className="h-4 w-4 mr-2" />
+                {loading ? 'Testing...' : 'Test Database'}
+              </button>
+            </div>
+
+            {dbResults && (
+              <div className="mt-6">
+                {dbResults.success ? (
+                  <div className="bg-green-50 border border-green-200 rounded-md p-4">
+                    <div className="flex">
+                      <CheckCircle className="h-5 w-5 text-green-400" />
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-green-800">
+                          Database Test Successful!
+                        </h3>
+                        <div className="mt-2 text-sm text-green-700">
+                          <p><strong>Document ID:</strong> {dbResults.documentId}</p>
+                          <p><strong>Message:</strong> {dbResults.message}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                    <div className="flex">
+                      <XCircle className="h-5 w-5 text-red-400" />
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-red-800">
+                          Database Test Failed
+                        </h3>
+                        <div className="mt-2 text-sm text-red-700">
+                          <p>{dbResults.message}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
