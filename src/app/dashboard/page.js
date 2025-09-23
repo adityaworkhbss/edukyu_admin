@@ -7,6 +7,8 @@ import { FileText, GraduationCap, BookOpen, BarChart3 } from 'lucide-react';
 export default function DashboardPage() {
   const { userIdentity } = useAuth();
 
+  console.log(userIdentity);
+
   const getRoleBasedStats = () => {
     if (userIdentity === '1') {
       return [

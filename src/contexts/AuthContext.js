@@ -26,12 +26,13 @@ export const AuthProvider = ({ children }) => {
       // Create user account with Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      
+
+
       // Prepare user data for Firestore
       const userData = {
         uid: user.uid,
         email: user.email,
-        userIdentity: parseInt(userIdentity),
+        userIdentity: userIdentity,
         role: userIdentity === '1' ? 'Blog Manager' : 'Content Manager',
         isActive: true,
         createdAt: new Date(),
@@ -79,7 +80,10 @@ export const AuthProvider = ({ children }) => {
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        setUserIdentity(userData.userIdentity);
+        // Normalize field name: support both userIdentity and user_identity
+        const identityRaw = userData.userIdentity ?? userData.user_identity ?? null;
+        const identity = identityRaw != null ? String(identityRaw) : null;
+        setUserIdentity(identity);
         
         // Update last login timestamp
         await setDoc(doc(db, 'users', user.uid), {
@@ -88,7 +92,7 @@ export const AuthProvider = ({ children }) => {
           updatedAt: new Date()
         }, { merge: true });
         
-        return userData.userIdentity;
+        return identity;
       }
     } catch (error) {
       console.error('Error fetching user identity:', error);
@@ -101,6 +105,7 @@ export const AuthProvider = ({ children }) => {
       if (user) {
         setCurrentUser(user);
         const identity = await fetchUserIdentity(user);
+        // const identity = 1;
         setUserIdentity(identity);
       } else {
         setCurrentUser(null);
