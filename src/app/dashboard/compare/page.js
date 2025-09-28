@@ -67,8 +67,29 @@ export default function ComparePage() {
   };
 
   const handleEdit = (college) => {
-    setEditingCollege(college);
+    // Extract the college name and data from the college object
+    // college structure: {"College Name": {...data...}, id: "...", createdAt: ...}
+    const { id, createdAt, updatedAt, ...collegeEntries } = college;
+    
+    setEditingCollege({
+      ...college,
+      ...collegeEntries // This will be the {"College Name": {...data...}} part
+    });
     setShowForm(true);
+  };
+
+  const getCollegeDisplayData = (college) => {
+    const { id, createdAt, updatedAt, ...collegeEntries } = college;
+    const collegeNames = Object.keys(collegeEntries);
+    if (collegeNames.length > 0) {
+      const collegeName = collegeNames[0];
+      const collegeData = collegeEntries[collegeName];
+      return {
+        name: collegeName,
+        data: collegeData
+      };
+    }
+    return { name: 'Unknown College', data: {} };
   };
 
   const handleDelete = async (collegeId) => {
@@ -135,105 +156,109 @@ export default function ComparePage() {
 
         {/* Colleges List */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {colleges.map((college) => (
-            <div key={college.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative">
-                {college.Colleges?.img ? (
-                  <img 
-                    className="w-full h-48 object-cover" 
-                    src={college.Colleges.img} 
-                    alt={college.collegeName}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
-                    }}
-                  />
-                ) : null}
-                <div className="w-full h-48 bg-gray-200 flex items-center justify-center" style={{display: college.Colleges?.img ? 'none' : 'flex'}}>
-                  <School className="h-16 w-16 text-gray-400" />
-                </div>
-                
-                <div className="absolute top-4 right-4 flex space-x-2">
-                  <button
-                    onClick={() => handleEdit(college)}
-                    className="bg-white bg-opacity-90 hover:bg-opacity-100 text-blue-600 p-2 rounded-full shadow-sm transition-all"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(college.id)}
-                    className="bg-white bg-opacity-90 hover:bg-opacity-100 text-red-600 p-2 rounded-full shadow-sm transition-all"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
-                    {college.collegeName}
-                  </h3>
-                  {college.Abbreviation && (
-                    <span className="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full flex-shrink-0">
-                      {college.Abbreviation}
-                    </span>
-                  )}
-                </div>
-                
-                <div className="space-y-2 text-sm text-gray-600">
-                  {college['Institute Type'] && (
-                    <div className="flex items-center">
-                      <School className="h-4 w-4 mr-2 text-gray-400" />
-                      <span>{college['Institute Type']}</span>
-                    </div>
-                  )}
+          {colleges.map((college) => {
+            const displayData = getCollegeDisplayData(college);
+            
+            return (
+              <div key={college.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative">
+                  {displayData.data.Colleges?.img ? (
+                    <img 
+                      className="w-full h-48 object-cover" 
+                      src={displayData.data.Colleges.img} 
+                      alt={displayData.name}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <div className="w-full h-48 bg-gray-200 flex items-center justify-center" style={{display: displayData.data.Colleges?.img ? 'none' : 'flex'}}>
+                    <School className="h-16 w-16 text-gray-400" />
+                  </div>
                   
-                  {college.Establishment && (
-                    <div className="flex items-center">
-                      <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                      <span>Est. {college.Establishment}</span>
-                    </div>
-                  )}
-                  
-                  {college.Website && (
-                    <div className="flex items-center">
-                      <Globe className="h-4 w-4 mr-2 text-gray-400" />
-                      <a 
-                        href={college.Website} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 truncate"
-                      >
-                        Visit Website
-                      </a>
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center space-x-4 mt-3">
-                    {college['UGC Approved'] === 'Yes' && (
-                      <span className="inline-flex items-center px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
-                        <Award className="h-3 w-3 mr-1" />
-                        UGC
-                      </span>
-                    )}
-                    {college['AICTE Approved'] === 'Yes' && (
-                      <span className="inline-flex items-center px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
-                        <Award className="h-3 w-3 mr-1" />
-                        AICTE
-                      </span>
-                    )}
+                  <div className="absolute top-4 right-4 flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(college)}
+                      className="bg-white bg-opacity-90 hover:bg-opacity-100 text-blue-600 p-2 rounded-full shadow-sm transition-all"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(college.id)}
+                      className="bg-white bg-opacity-90 hover:bg-opacity-100 text-red-600 p-2 rounded-full shadow-sm transition-all"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
                   </div>
                 </div>
                 
-                {college.About && (
-                  <p className="mt-3 text-sm text-gray-600 line-clamp-3">
-                    {college.About}
-                  </p>
-                )}
+                <div className="p-6">
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+                      {displayData.name}
+                    </h3>
+                    {displayData.data.Abbreviation && (
+                      <span className="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full flex-shrink-0">
+                        {displayData.data.Abbreviation}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2 text-sm text-gray-600">
+                    {displayData.data['Institute Type'] && (
+                      <div className="flex items-center">
+                        <School className="h-4 w-4 mr-2 text-gray-400" />
+                        <span>{displayData.data['Institute Type']}</span>
+                      </div>
+                    )}
+                    
+                    {displayData.data.Establishment && (
+                      <div className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+                        <span>Est. {displayData.data.Establishment}</span>
+                      </div>
+                    )}
+                    
+                    {displayData.data.Website && (
+                      <div className="flex items-center">
+                        <Globe className="h-4 w-4 mr-2 text-gray-400" />
+                        <a 
+                          href={displayData.data.Website} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 truncate"
+                        >
+                          Visit Website
+                        </a>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center space-x-4 mt-3">
+                      {displayData.data['UGC'] === 'Yes' && (
+                        <span className="inline-flex items-center px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
+                          <Award className="h-3 w-3 mr-1" />
+                          UGC
+                        </span>
+                      )}
+                      {displayData.data['AICTE'] === 'Yes' && (
+                        <span className="inline-flex items-center px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
+                          <Award className="h-3 w-3 mr-1" />
+                          AICTE
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {displayData.data.About && (
+                    <p className="mt-3 text-sm text-gray-600 line-clamp-3">
+                      {displayData.data.About}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
         {colleges.length === 0 && !loading && (

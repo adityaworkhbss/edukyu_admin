@@ -12,9 +12,9 @@ function SingleCollegeCompareForm({ isOpen, onClose, onSubmit, editingCollege })
     Establishment: '',
     About: '',
     Accreditation: '',
-    'UGC Approved': '',
-    'AICTE Approved': '',
-    'DEB Approved': '',
+    'UGC': '',
+    'AICTE': '',
+    'DEB': '',
     Duration: '',
     'Learning Methodology': '',
     Fees: '',
@@ -29,28 +29,34 @@ function SingleCollegeCompareForm({ isOpen, onClose, onSubmit, editingCollege })
 
   useEffect(() => {
     if (editingCollege) {
-      setFormData({
-        collegeName: editingCollege.collegeName || '',
-        Colleges: editingCollege.Colleges || { text: '', img: '' },
-        Abbreviation: editingCollege.Abbreviation || '',
-        'Institute Type': editingCollege['Institute Type'] || '',
-        Establishment: editingCollege.Establishment || '',
-        About: editingCollege.About || '',
-        Accreditation: editingCollege.Accreditation || '',
-        'UGC Approved': editingCollege['UGC Approved'] || '',
-        'AICTE Approved': editingCollege['AICTE Approved'] || '',
-        'DEB Approved': editingCollege['DEB Approved'] || '',
-        Duration: editingCollege.Duration || '',
-        'Learning Methodology': editingCollege['Learning Methodology'] || '',
-        Fees: editingCollege.Fees || '',
-        Programs: editingCollege.Programs || '',
-        Specialisation: editingCollege.Specialisation || '',
-        Review: editingCollege.Review || '',
-        Eligibility: editingCollege.Eligibility || '',
-        'Any Issue': editingCollege['Any Issue'] || '',
-        'Our recommendation': editingCollege['Our recommendation'] || '',
-        Website: editingCollege.Website || ''
-      });
+      // Extract college name and data from the editing object
+      // editingCollege should be like: {"College Name": {...data...}}
+      const collegeEntries = Object.entries(editingCollege);
+      if (collegeEntries.length > 0) {
+        const [collegeName, collegeData] = collegeEntries[0];
+        setFormData({
+          collegeName: collegeName,
+          Colleges: collegeData.Colleges || { text: '', img: '' },
+          Abbreviation: collegeData.Abbreviation || '',
+          'Institute Type': collegeData['Institute Type'] || '',
+          Establishment: collegeData.Establishment || '',
+          About: collegeData.About || '',
+          Accreditation: collegeData.Accreditation || '',
+          'UGC': collegeData['UGC'] || '',
+          'AICTE': collegeData['AICTE'] || '',
+          'DEB': collegeData['DEB'] || '',
+          Duration: collegeData.Duration || '',
+          'Learning Methodology': collegeData['Learning Methodology'] || '',
+          Fees: collegeData.Fees || '',
+          Programs: collegeData.Programs || '',
+          Specialisation: collegeData.Specialisation || '',
+          Review: collegeData.Review || '',
+          Eligibility: collegeData.Eligibility || '',
+          'Any Issue': collegeData['Any Issue'] || '',
+          'Our recommendation': collegeData['Our recommendation'] || '',
+          Website: collegeData.Website || ''
+        });
+      }
     } else {
       // Reset form for new entry
       setFormData({
@@ -61,9 +67,9 @@ function SingleCollegeCompareForm({ isOpen, onClose, onSubmit, editingCollege })
         Establishment: '',
         About: '',
         Accreditation: '',
-        'UGC Approved': '',
-        'AICTE Approved': '',
-        'DEB Approved': '',
+        'UGC': '',
+        'AICTE': '',
+        'DEB': '',
         Duration: '',
         'Learning Methodology': '',
         Fees: '',
@@ -86,13 +92,20 @@ function SingleCollegeCompareForm({ isOpen, onClose, onSubmit, editingCollege })
       return;
     }
     
+    // Create the structure: {"College Name": {...all data except collegeName}}
+    const { collegeName, ...collegeData } = formData;
+    
     // Make sure college name is also set in Colleges.text if not provided
-    const submissionData = {
-      ...formData,
+    const finalCollegeData = {
+      ...collegeData,
       Colleges: {
-        ...formData.Colleges,
-        text: formData.Colleges.text || formData.collegeName
+        ...collegeData.Colleges,
+        text: collegeData.Colleges.text || collegeName
       }
+    };
+    
+    const submissionData = {
+      [collegeName.trim()]: finalCollegeData
     };
     
     onSubmit(submissionData);
@@ -146,9 +159,9 @@ function SingleCollegeCompareForm({ isOpen, onClose, onSubmit, editingCollege })
       color: 'bg-purple-50 border-purple-200',
       fields: [
         { key: 'Accreditation', label: 'Accreditation', type: 'text' },
-        { key: 'UGC Approved', label: 'UGC Approved', type: 'select', options: ['Yes', 'No', 'Under Process'] },
-        { key: 'AICTE Approved', label: 'AICTE Approved', type: 'select', options: ['Yes', 'No', 'Under Process'] },
-        { key: 'DEB Approved', label: 'DEB Approved', type: 'select', options: ['Yes', 'No', 'Under Process'] }
+        { key: 'UGC', label: 'UGC', type: 'select', options: ['Yes', 'No', 'Under Process'] },
+        { key: 'AICTE', label: 'AICTE', type: 'select', options: ['Yes', 'No', 'Under Process'] },
+        { key: 'DEB', label: 'DEB', type: 'select', options: ['Yes', 'No', 'Under Process'] }
       ]
     },
     {
