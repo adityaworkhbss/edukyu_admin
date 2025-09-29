@@ -17,12 +17,6 @@ export default function CollegesPage() {
   const [editingCollege, setEditingCollege] = useState(null);
   const [formData, setFormData] = useState({
     collegeKey: '', // e.g., "DYP"
-    database: {
-      host: '',
-      user: '',
-      password: '',
-      name: ''
-    },
     university_info: {
       name: '',
       logo: '',
@@ -55,9 +49,6 @@ export default function CollegesPage() {
         }
       },
       faqs: []
-    },
-    redirects: {
-      success: ''
     }
   });
 
@@ -95,9 +86,7 @@ export default function CollegesPage() {
       // Create the final structure with collegeKey as the top level
       const collegeData = {
         [formData.collegeKey]: {
-          database: formData.database,
-          university_info: formData.university_info,
-          redirects: formData.redirects
+          university_info: formData.university_info
         },
         createdAt: editingCollege ? editingCollege.createdAt : new Date(),
         updatedAt: new Date()
@@ -112,12 +101,6 @@ export default function CollegesPage() {
       // Reset form
       setFormData({
         collegeKey: '',
-        database: {
-          host: '',
-          user: '',
-          password: '',
-          name: ''
-        },
         university_info: {
           name: '',
           logo: '',
@@ -150,9 +133,6 @@ export default function CollegesPage() {
             }
           },
           faqs: []
-        },
-        redirects: {
-          success: ''
         }
       });
       setShowForm(false);
@@ -172,12 +152,6 @@ export default function CollegesPage() {
     
     setFormData({
       collegeKey: collegeKey || '',
-      database: collegeData.database || {
-        host: '',
-        user: '',
-        password: '',
-        name: ''
-      },
       university_info: collegeData.university_info || {
         name: '',
         logo: '',
@@ -210,9 +184,6 @@ export default function CollegesPage() {
           }
         },
         faqs: []
-      },
-      redirects: collegeData.redirects || {
-        success: ''
       }
     });
     setShowForm(true);

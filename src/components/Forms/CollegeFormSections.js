@@ -13,8 +13,8 @@ export const AccreditationsSection = ({ formData, setFormData, addArrayItem, rem
               type="text"
               value={accreditation.name || ''}
               onChange={(e) => updateArrayItem('university_info.accreditations', index, 'name', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-              placeholder="NAAC, AICTE, etc."
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm"
+              placeholder="Enter accreditation name (e.g., NAAC A+, AICTE Approved, UGC Recognized)"
             />
           </div>
           <div>
@@ -23,8 +23,8 @@ export const AccreditationsSection = ({ formData, setFormData, addArrayItem, rem
               type="url"
               value={accreditation.image || ''}
               onChange={(e) => updateArrayItem('university_info.accreditations', index, 'image', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-              placeholder="https://example.com/accreditation.png"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm"
+              placeholder="Enter accreditation logo URL (e.g., https://naac.gov.in/logo.png)"
             />
           </div>
         </div>
@@ -70,8 +70,8 @@ export const CoursesSection = ({
               type="text"
               value={course.name || ''}
               onChange={(e) => updateArrayItem('university_info.courses', index, 'name', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
-              placeholder="Online MBA"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+              placeholder="Enter course name (e.g., Online MBA, Bachelor of Computer Applications)"
             />
           </div>
           <div>
@@ -80,7 +80,8 @@ export const CoursesSection = ({
               type="url"
               value={course.image || ''}
               onChange={(e) => updateArrayItem('university_info.courses', index, 'image', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+              placeholder="Enter course image URL (e.g., https://university.edu/mba-course.jpg)"
             />
           </div>
           <div>
@@ -89,8 +90,8 @@ export const CoursesSection = ({
               type="text"
               value={course.duration || ''}
               onChange={(e) => updateArrayItem('university_info.courses', index, 'duration', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
-              placeholder="2 years"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+              placeholder="Enter course duration (e.g., 2 years, 18 months, 3 years)"
             />
           </div>
           <div>
@@ -98,7 +99,7 @@ export const CoursesSection = ({
             <select
               value={course.type || ''}
               onChange={(e) => updateArrayItem('university_info.courses', index, 'type', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
             >
               <option value="">Select Type</option>
               <option value="UG">UG</option>
@@ -116,8 +117,8 @@ export const CoursesSection = ({
                 fees.original = e.target.value;
                 updateArrayItem('university_info.courses', index, 'fees', fees);
               }}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
-              placeholder="1,69,200"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+              placeholder="Enter original fee amount (e.g., Rs 1,69,200, $15,000)"
             />
           </div>
           <div>
@@ -130,8 +131,8 @@ export const CoursesSection = ({
                 fees.discounted = e.target.value;
                 updateArrayItem('university_info.courses', index, 'fees', fees);
               }}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
-              placeholder="1,52,280"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+              placeholder="Enter discounted fee amount (e.g., Rs 1,52,280, $12,000)"
             />
           </div>
         </div>
@@ -141,7 +142,7 @@ export const CoursesSection = ({
             value={course.description || ''}
             onChange={(e) => updateArrayItem('university_info.courses', index, 'description', e.target.value)}
             rows={2}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+            className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
           />
         </div>
         
@@ -154,8 +155,8 @@ export const CoursesSection = ({
                 type="text"
                 value={spec}
                 onChange={(e) => updateNestedArrayItem('university_info.courses', index, 'specializations', specIndex, e.target.value)}
-                className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                placeholder="Finance, Marketing, etc."
+                className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+                placeholder="Enter specialization name (e.g., Finance, Digital Marketing, Human Resources)"
               />
               <button
                 type="button"
@@ -208,7 +209,7 @@ export const BenefitsSection = ({ formData, addArrayItem, removeArrayItem, updat
           value={benefit}
           onChange={(e) => updateArrayItem('university_info.benefits', index, null, e.target.value)}
           rows={2}
-          className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           placeholder="Enter benefit description..."
         />
         <button
@@ -243,7 +244,7 @@ export const DegreeSection = ({ formData, handleInputChange, addArrayItem, remov
           value={formData.university_info.degree.description}
           onChange={handleInputChange}
           rows={3}
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
         />
       </div>
       <div>
@@ -253,7 +254,7 @@ export const DegreeSection = ({ formData, handleInputChange, addArrayItem, remov
           name="university_info.degree.certificate_image"
           value={formData.university_info.degree.certificate_image}
           onChange={handleInputChange}
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
         />
       </div>
       
@@ -266,7 +267,7 @@ export const DegreeSection = ({ formData, handleInputChange, addArrayItem, remov
               type="text"
               value={highlight}
               onChange={(e) => updateArrayItem('university_info.degree.highlights', index, null, e.target.value)}
-              className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+              className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
             />
             <button
               type="button"
@@ -299,7 +300,7 @@ export const DegreeSection = ({ formData, handleInputChange, addArrayItem, remov
             name="university_info.degree_sample.image"
             value={formData.university_info.degree_sample.image}
             onChange={handleInputChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+            className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
           />
         </div>
         <div>
@@ -309,7 +310,7 @@ export const DegreeSection = ({ formData, handleInputChange, addArrayItem, remov
             value={formData.university_info.degree_sample.description}
             onChange={handleInputChange}
             rows={2}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+            className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
           />
         </div>
         
@@ -322,7 +323,7 @@ export const DegreeSection = ({ formData, handleInputChange, addArrayItem, remov
                 type="text"
                 value={highlight}
                 onChange={(e) => updateArrayItem('university_info.degree_sample.highlights', index, null, e.target.value)}
-                className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
               />
               <button
                 type="button"

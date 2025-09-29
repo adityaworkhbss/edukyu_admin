@@ -13,7 +13,7 @@ export const AdmissionSection = ({ formData, addArrayItem, removeArrayItem, upda
               type="number"
               value={step.step || ''}
               onChange={(e) => updateArrayItem('university_info.admission_process', index, 'step', parseInt(e.target.value))}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 text-sm"
               min="1"
             />
           </div>
@@ -23,7 +23,7 @@ export const AdmissionSection = ({ formData, addArrayItem, removeArrayItem, upda
               value={step.description || ''}
               onChange={(e) => updateArrayItem('university_info.admission_process', index, 'description', e.target.value)}
               rows={2}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 text-sm"
               placeholder="Describe this admission step..."
             />
           </div>
@@ -34,7 +34,7 @@ export const AdmissionSection = ({ formData, addArrayItem, removeArrayItem, upda
             type="url"
             value={step.image || ''}
             onChange={(e) => updateArrayItem('university_info.admission_process', index, 'image', e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+            className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 text-sm"
           />
         </div>
         <button
@@ -73,7 +73,7 @@ export const PlacementSection = ({ formData, handleInputChange, addArrayItem, re
             name="university_info.placement.statistics.average_package"
             value={formData.university_info.placement.statistics.average_package}
             onChange={handleInputChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-sm"
             placeholder="Rs 4,76,000"
           />
         </div>
@@ -84,7 +84,7 @@ export const PlacementSection = ({ formData, handleInputChange, addArrayItem, re
             name="university_info.placement.statistics.highest_package"
             value={formData.university_info.placement.statistics.highest_package}
             onChange={handleInputChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-sm"
             placeholder="Rs 10,50,000"
           />
         </div>
@@ -100,7 +100,7 @@ export const PlacementSection = ({ formData, handleInputChange, addArrayItem, re
             type="url"
             value={partner}
             onChange={(e) => updateArrayItem('university_info.placement.partners', index, null, e.target.value)}
-            className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-sm"
             placeholder="https://example.com/company-logo.png"
           />
           <button
@@ -131,7 +131,7 @@ export const PlacementSection = ({ formData, handleInputChange, addArrayItem, re
             type="text"
             value={benefit}
             onChange={(e) => updateArrayItem('university_info.placement.benefits', index, null, e.target.value)}
-            className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-sm"
             placeholder="300+ Hiring Partners"
           />
           <button
@@ -168,7 +168,7 @@ export const FaqsSection = ({ formData, addArrayItem, removeArrayItem, updateArr
               type="text"
               value={faq.question || ''}
               onChange={(e) => updateArrayItem('university_info.faqs', index, 'question', e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm"
               placeholder="Enter question..."
             />
           </div>
@@ -178,7 +178,7 @@ export const FaqsSection = ({ formData, addArrayItem, removeArrayItem, updateArr
               value={faq.answer || ''}
               onChange={(e) => updateArrayItem('university_info.faqs', index, 'answer', e.target.value)}
               rows={3}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm"
               placeholder="Enter answer..."
             />
           </div>

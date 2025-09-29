@@ -16,36 +16,60 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
         university: '',
         description: '',
         logo: '',
+        accreditations: [],
         duration: {
           length: '',
-          semesters: ''
+          weeklyHours: '',
+          workExperience: ''
         },
         fees: {
           total: '',
           perSemester: '',
-          original_price: '',
-          yearly: ''
+          emi: '',
+          additionalBenefits: ''
         },
-        courses: [],
-        accreditations: []
+        courses: []
       },
+      specializations: [],
+      accreditations: [],
       programBenefits: [],
-      eligibility: {
-        domestic: {
-          educationalQualification: ''
-        },
-        international: {
-          educationalQualification: ''
-        }
-      },
-      curriculum: {
-        semesters: []
-      },
-      admissionProcess: [],
       careerOpportunities: {
         jobRoles: [],
         industries: []
       },
+      curriculum: {
+        duration: '',
+        structure: '',
+        weeklyCommitment: '',
+        credits: '',
+        semesters: []
+      },
+      additionalTools: {
+        title: '',
+        description: '',
+        categories: []
+      },
+      feeStructure: {
+        categories: [],
+        financialOptions: []
+      },
+      eligibility: {
+        domestic: {
+          educationalQualification: '',
+          grades: '',
+          aptitudeTest: '',
+          workExperience: ''
+        },
+        international: {
+          educationalQualification: '',
+          grades: '',
+          aptitudeTest: '',
+          otherRequirements: ''
+        }
+      },
+      admissionProcess: [],
+      faculty: [],
+      placementAssistance: [],
       faqs: [],
       hiringPartners: [],
       scholarships: {
@@ -189,10 +213,16 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
 
   const tabs = [
     { id: 'basic', label: 'Basic Info' },
+    { id: 'specializations', label: 'Specializations' },
+    { id: 'accreditations', label: 'Accreditations' },
     { id: 'benefits', label: 'Program Benefits' },
     { id: 'eligibility', label: 'Eligibility' },
     { id: 'curriculum', label: 'Curriculum' },
+    { id: 'additionalTools', label: 'Additional Tools' },
+    { id: 'feeStructure', label: 'Fee Structure' },
     { id: 'admissions', label: 'Admissions' },
+    { id: 'faculty', label: 'Faculty' },
+    { id: 'placement', label: 'Placement' },
     { id: 'career', label: 'Career' },
     { id: 'faqs', label: 'FAQs' },
     { id: 'partners', label: 'Partners' },
@@ -243,12 +273,12 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                     type="text"
                     value={formData.university_key || ''}
                     onChange={(e) => handleKeyInput('university_key', e.target.value)}
-                    className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
+                    className={`mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm ${
                       formData.university_key && !validateKey(formData.university_key) 
                         ? 'border-red-500 focus:border-red-500 focus:ring-red-500' 
                         : ''
                     }`}
-                    placeholder="noida_international_university"
+                    placeholder="Enter university key (e.g., manipal_university_jaipur)"
                     pattern="^[a-z_]*$"
                     title="Only lowercase letters and underscores are allowed"
                     required
@@ -261,12 +291,12 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                     type="text"
                     value={formData.course_key || ''}
                     onChange={(e) => handleKeyInput('course_key', e.target.value)}
-                    className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
+                    className={`mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm ${
                       formData.course_key && !validateKey(formData.course_key) 
                         ? 'border-red-500 focus:border-red-500 focus:ring-red-500' 
                         : ''
                     }`}
-                    placeholder="online_mba"
+                    placeholder="Enter course key (e.g., online_mba, online_bca)"
                     pattern="^[a-z_]*$"
                     title="Only lowercase letters and underscores are allowed"
                     required
@@ -282,7 +312,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                     type="text"
                     value={formData.page?.title || ''}
                     onChange={(e) => handleInputChange('page.title', e.target.value)}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                    placeholder="Enter full course title (e.g., Master of Business Administration - Online MBA)"
                     required
                   />
                 </div>
@@ -292,7 +323,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                     type="text"
                     value={formData.page?.university || ''}
                     onChange={(e) => handleInputChange('page.university', e.target.value)}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                    placeholder="Enter university name (e.g., Manipal University Jaipur)"
                     required
                   />
                 </div>
@@ -304,7 +336,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                   value={formData.page?.description || ''}
                   onChange={(e) => handleInputChange('page.description', e.target.value)}
                   rows={3}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                  placeholder="Enter detailed course description explaining program benefits, structure, and key features..."
                 />
               </div>
 
@@ -314,7 +347,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                   type="url"
                   value={formData.page?.logo || ''}
                   onChange={(e) => handleInputChange('page.logo', e.target.value)}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                  placeholder="Enter logo URL (e.g., https://example.com/logo.png)"
                 />
               </div>
 
@@ -328,8 +362,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={formData.page?.duration?.length || ''}
                       onChange={(e) => handleInputChange('page.duration.length', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="2 years"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      placeholder="Enter course duration (e.g., 2 years, 18 months)"
                     />
                   </div>
                   <div>
@@ -338,8 +372,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={formData.page?.duration?.semesters || ''}
                       onChange={(e) => handleInputChange('page.duration.semesters', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="4"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      placeholder="Enter number of semesters (e.g., 4, 6)"
                     />
                   </div>
                 </div>
@@ -355,8 +389,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={formData.page?.fees?.total || ''}
                       onChange={(e) => handleInputChange('page.fees.total', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Rs 88,500"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      placeholder="Enter total fee amount (e.g., Rs 88,500, $12,000)"
                     />
                   </div>
                   <div>
@@ -365,8 +399,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={formData.page?.fees?.perSemester || ''}
                       onChange={(e) => handleInputChange('page.fees.perSemester', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Rs 22,125"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      placeholder="Enter per semester fee (e.g., Rs 22,125, $3,000)"
                     />
                   </div>
                   <div>
@@ -375,8 +409,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={formData.page?.fees?.original_price || ''}
                       onChange={(e) => handleInputChange('page.fees.original_price', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Rs 1,18,000"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      placeholder="Enter original price before discount (e.g., Rs 1,18,000)"
                     />
                   </div>
                   <div>
@@ -385,8 +419,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={formData.page?.fees?.yearly || ''}
                       onChange={(e) => handleInputChange('page.fees.yearly', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Rs 44,250"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      placeholder="Enter yearly fee amount (e.g., Rs 44,250)"
                     />
                   </div>
                 </div>
@@ -404,7 +438,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                           type="text"
                           value={course.name || ''}
                           onChange={(e) => updateArrayItem('page.courses', index, 'name', e.target.value)}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+                          placeholder="Enter course name (e.g., MBA in Marketing)"
                         />
                       </div>
                       <div>
@@ -413,7 +448,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                           type="text"
                           value={course.duration || ''}
                           onChange={(e) => updateArrayItem('page.courses', index, 'duration', e.target.value)}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+                          placeholder="Enter duration (e.g., 2 years, 18 months)"
                         />
                       </div>
                       <div>
@@ -421,7 +457,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         <select
                           value={course.type || ''}
                           onChange={(e) => updateArrayItem('page.courses', index, 'type', e.target.value)}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
                         >
                           <option value="">Select Type</option>
                           <option value="UG">UG</option>
@@ -441,7 +477,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                             fees.original = e.target.value;
                             updateArrayItem('page.courses', index, 'fees', fees);
                           }}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+                          placeholder="Enter original fee amount (e.g., Rs 1,50,000)"
                         />
                       </div>
                       <div>
@@ -454,7 +491,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                             fees.discounted = e.target.value;
                             updateArrayItem('page.courses', index, 'fees', fees);
                           }}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+                          placeholder="Enter discounted fee amount (e.g., Rs 88,500)"
                         />
                       </div>
                       <div>
@@ -467,7 +505,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                             fees.display = e.target.value;
                             updateArrayItem('page.courses', index, 'fees', fees);
                           }}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm"
+                          placeholder="Enter display fee text (e.g., Starting from Rs 88,500)"
                         />
                       </div>
                     </div>
@@ -504,7 +543,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                           type="text"
                           value={accreditation.name || ''}
                           onChange={(e) => updateArrayItem('page.accreditations', index, 'name', e.target.value)}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm"
+                          placeholder="Enter accreditation name (e.g., NAAC A+, UGC Approved)"
                         />
                       </div>
                       <div>
@@ -513,7 +553,8 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                           type="url"
                           value={accreditation.icon || ''}
                           onChange={(e) => updateArrayItem('page.accreditations', index, 'icon', e.target.value)}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm"
+                          placeholder="Enter icon URL (e.g., https://example.com/naac-logo.png)"
                         />
                       </div>
                     </div>
@@ -538,6 +579,121 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
             </div>
           )}
 
+          {/* Specializations Tab */}
+          {activeTab === 'specializations' && (
+            <div className="bg-purple-50 p-4 rounded-lg">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Specializations</h4>
+              {(formData.specializations || []).map((specialization, index) => (
+                <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Name</label>
+                      <input
+                        type="text"
+                        value={specialization.name || ''}
+                        onChange={(e) => updateArrayItem('specializations', index, 'name', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
+                        placeholder="Enter specialization name (e.g., Digital Marketing, Finance)"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Icon URL</label>
+                      <input
+                        type="text"
+                        value={specialization.icon || ''}
+                        onChange={(e) => updateArrayItem('specializations', index, 'icon', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
+                        placeholder="Enter icon URL (e.g., https://example.com/marketing-icon.svg)"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Link (Optional)</label>
+                      <input
+                        type="text"
+                        value={specialization.link || ''}
+                        onChange={(e) => updateArrayItem('specializations', index, 'link', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
+                        placeholder="Enter optional link (e.g., /specialization/digital-marketing)"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeArrayItem('specializations', index)}
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('specializations', { name: '', icon: '', link: '' })}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Add Specialization
+              </button>
+            </div>
+          )}
+
+          {/* Accreditations Tab */}
+          {activeTab === 'accreditations' && (
+            <div className="bg-indigo-50 p-4 rounded-lg">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Accreditations</h4>
+              {(formData.accreditations || []).map((accreditation, index) => (
+                <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Name</label>
+                      <input
+                        type="text"
+                        value={accreditation.name || ''}
+                        onChange={(e) => updateArrayItem('accreditations', index, 'name', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Icon URL</label>
+                      <input
+                        type="text"
+                        value={accreditation.icon || ''}
+                        onChange={(e) => updateArrayItem('accreditations', index, 'icon', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea
+                      value={accreditation.description || ''}
+                      onChange={(e) => updateArrayItem('accreditations', index, 'description', e.target.value)}
+                      rows={3}
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeArrayItem('accreditations', index)}
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('accreditations', { name: '', icon: '', description: '' })}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Add Accreditation
+              </button>
+            </div>
+          )}
+
           {/* Program Benefits Tab */}
           {activeTab === 'benefits' && (
             <div className="bg-green-50 p-4 rounded-lg">
@@ -550,7 +706,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={benefit.title || ''}
                       onChange={(e) => updateArrayItem('programBenefits', index, 'title', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
                     />
                   </div>
                   <div className="mt-4">
@@ -559,7 +715,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       value={benefit.description || ''}
                       onChange={(e) => updateArrayItem('programBenefits', index, 'description', e.target.value)}
                       rows={2}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
                     />
                   </div>
                   <button
@@ -593,7 +749,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                     value={formData.eligibility?.domestic?.educationalQualification || ''}
                     onChange={(e) => handleInputChange('eligibility.domestic.educationalQualification', e.target.value)}
                     rows={3}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
                     placeholder="Educational qualification requirements for domestic students"
                   />
                 </div>
@@ -603,7 +759,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                     value={formData.eligibility?.international?.educationalQualification || ''}
                     onChange={(e) => handleInputChange('eligibility.international.educationalQualification', e.target.value)}
                     rows={3}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
                     placeholder="Educational qualification requirements for international students"
                   />
                 </div>
@@ -624,7 +780,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         type="number"
                         value={semester.number || ''}
                         onChange={(e) => updateArrayItem('curriculum.semesters', index, 'number', parseInt(e.target.value))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
                       />
                     </div>
                     <button
@@ -647,7 +803,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                             courses[courseIndex] = e.target.value;
                             updateArrayItem('curriculum.semesters', index, 'courses', courses);
                           }}
-                          className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                          className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 text-sm"
                           placeholder="Course name"
                         />
                         <button
@@ -687,6 +843,233 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
             </div>
           )}
 
+          {/* Additional Tools Tab */}
+          {activeTab === 'additionalTools' && (
+            <div className="bg-teal-50 p-4 rounded-lg">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Additional Tools & Certifications</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Title</label>
+                  <input
+                    type="text"
+                    value={formData.additionalTools?.title || ''}
+                    onChange={(e) => handleInputChange('additionalTools.title', e.target.value)}
+                    className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Description</label>
+                  <textarea
+                    value={formData.additionalTools?.description || ''}
+                    onChange={(e) => handleInputChange('additionalTools.description', e.target.value)}
+                    rows={3}
+                    className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm"
+                  />
+                </div>
+              </div>
+              {(formData.additionalTools?.categories || []).map((category, index) => (
+                <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Category Name</label>
+                    <input
+                      type="text"
+                      value={category.name || ''}
+                      onChange={(e) => updateArrayItem('additionalTools.categories', index, 'name', e.target.value)}
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">Items</label>
+                    {(category.items || []).map((item, itemIndex) => (
+                      <div key={itemIndex} className="flex items-center space-x-2 mb-2">
+                        <input
+                          type="text"
+                          value={item || ''}
+                          onChange={(e) => {
+                            const newItems = [...(category.items || [])];
+                            newItems[itemIndex] = e.target.value;
+                            updateArrayItem('additionalTools.categories', index, 'items', newItems);
+                          }}
+                          className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newItems = [...(category.items || [])];
+                            newItems.splice(itemIndex, 1);
+                            updateArrayItem('additionalTools.categories', index, 'items', newItems);
+                          }}
+                          className="text-red-600 hover:text-red-900"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newItems = [...(category.items || []), ''];
+                        updateArrayItem('additionalTools.categories', index, 'items', newItems);
+                      }}
+                      className="text-sm text-teal-600 hover:text-teal-900"
+                    >
+                      Add Item
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeArrayItem('additionalTools.categories', index)}
+                    className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Remove Category
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('additionalTools.categories', { name: '', items: [] })}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-teal-700 bg-teal-100 hover:bg-teal-200"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Add Category
+              </button>
+            </div>
+          )}
+
+          {/* Fee Structure Tab */}
+          {activeTab === 'feeStructure' && (
+            <div className="bg-emerald-50 p-4 rounded-lg">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Fee Structure</h4>
+              
+              {/* Fee Categories */}
+              <div className="mb-6">
+                <h5 className="text-md font-medium text-gray-700 mb-3">Fee Categories</h5>
+                {(formData.feeStructure?.categories || []).map((category, index) => (
+                  <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Category Name</label>
+                        <input
+                          type="text"
+                          value={category.name || ''}
+                          onChange={(e) => updateArrayItem('feeStructure.categories', index, 'name', e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Full Course Fee</label>
+                        <input
+                          type="text"
+                          value={category.fullCourseFee || ''}
+                          onChange={(e) => updateArrayItem('feeStructure.categories', index, 'fullCourseFee', e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Per Semester</label>
+                        <input
+                          type="text"
+                          value={category.perSemester || ''}
+                          onChange={(e) => updateArrayItem('feeStructure.categories', index, 'perSemester', e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">EMI</label>
+                        <input
+                          type="text"
+                          value={category.emi || ''}
+                          onChange={(e) => updateArrayItem('feeStructure.categories', index, 'emi', e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <label className="block text-sm font-medium text-gray-700">Note</label>
+                      <textarea
+                        value={category.note || ''}
+                        onChange={(e) => updateArrayItem('feeStructure.categories', index, 'note', e.target.value)}
+                        rows={2}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('feeStructure.categories', index)}
+                      className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200"
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => addArrayItem('feeStructure.categories', { name: '', fullCourseFee: '', perSemester: '', emi: '', note: '' })}
+                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  Add Fee Category
+                </button>
+              </div>
+
+              {/* Financial Options */}
+              <div>
+                <h5 className="text-md font-medium text-gray-700 mb-3">Financial Options</h5>
+                {(formData.feeStructure?.financialOptions || []).map((option, index) => (
+                  <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Title</label>
+                        <input
+                          type="text"
+                          value={option.title || ''}
+                          onChange={(e) => updateArrayItem('feeStructure.financialOptions', index, 'title', e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">Icon URL</label>
+                        <input
+                          type="text"
+                          value={option.icon || ''}
+                          onChange={(e) => updateArrayItem('feeStructure.financialOptions', index, 'icon', e.target.value)}
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <label className="block text-sm font-medium text-gray-700">Description</label>
+                      <textarea
+                        value={option.description || ''}
+                        onChange={(e) => updateArrayItem('feeStructure.financialOptions', index, 'description', e.target.value)}
+                        rows={2}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('feeStructure.financialOptions', index)}
+                      className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200"
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => addArrayItem('feeStructure.financialOptions', { title: '', icon: '', description: '' })}
+                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  Add Financial Option
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Admissions Tab */}
           {activeTab === 'admissions' && (
             <div className="bg-orange-50 p-4 rounded-lg">
@@ -700,7 +1083,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         type="number"
                         value={step.step || ''}
                         onChange={(e) => updateArrayItem('admissionProcess', index, 'step', parseInt(e.target.value))}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-sm"
                       />
                     </div>
                     <div className="md:col-span-2">
@@ -709,7 +1092,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         type="text"
                         value={step.title || ''}
                         onChange={(e) => updateArrayItem('admissionProcess', index, 'title', e.target.value)}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-sm"
                       />
                     </div>
                   </div>
@@ -719,7 +1102,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       value={step.description || ''}
                       onChange={(e) => updateArrayItem('admissionProcess', index, 'description', e.target.value)}
                       rows={2}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-sm"
                     />
                   </div>
                   <button
@@ -742,6 +1125,127 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
             </div>
           )}
 
+          {/* Faculty Tab */}
+          {activeTab === 'faculty' && (
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Faculty</h4>
+              {(formData.faculty || []).map((member, index) => (
+                <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Name</label>
+                      <input
+                        type="text"
+                        value={member.name || ''}
+                        onChange={(e) => updateArrayItem('faculty', index, 'name', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Position</label>
+                      <input
+                        type="text"
+                        value={member.position || ''}
+                        onChange={(e) => updateArrayItem('faculty', index, 'position', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Qualifications</label>
+                      <input
+                        type="text"
+                        value={member.qualifications || ''}
+                        onChange={(e) => updateArrayItem('faculty', index, 'qualifications', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Image URL</label>
+                      <input
+                        type="text"
+                        value={member.image || ''}
+                        onChange={(e) => updateArrayItem('faculty', index, 'image', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeArrayItem('faculty', index)}
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('faculty', { name: '', position: '', qualifications: '', image: '' })}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Add Faculty Member
+              </button>
+            </div>
+          )}
+
+          {/* Placement Assistance Tab */}
+          {activeTab === 'placement' && (
+            <div className="bg-cyan-50 p-4 rounded-lg">
+              <h4 className="text-lg font-semibold text-gray-800 mb-4">Placement Assistance</h4>
+              {(formData.placementAssistance || []).map((assistance, index) => (
+                <div key={index} className="border border-gray-200 rounded-md p-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Title</label>
+                      <input
+                        type="text"
+                        value={assistance.title || ''}
+                        onChange={(e) => updateArrayItem('placementAssistance', index, 'title', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Image URL</label>
+                      <input
+                        type="text"
+                        value={assistance.image || ''}
+                        onChange={(e) => updateArrayItem('placementAssistance', index, 'image', e.target.value)}
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea
+                      value={assistance.description || ''}
+                      onChange={(e) => updateArrayItem('placementAssistance', index, 'description', e.target.value)}
+                      rows={3}
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 text-sm"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeArrayItem('placementAssistance', index)}
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('placementAssistance', { title: '', description: '', image: '' })}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-cyan-700 bg-cyan-100 hover:bg-cyan-200"
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Add Placement Assistance
+              </button>
+            </div>
+          )}
+
           {/* Career Tab */}
           {activeTab === 'career' && (
             <div className="space-y-6">
@@ -758,7 +1262,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         roles[index] = e.target.value;
                         handleInputChange('careerOpportunities.jobRoles', roles);
                       }}
-                      className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                       placeholder="Job role"
                     />
                     <button
@@ -799,7 +1303,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         industries[index] = e.target.value;
                         handleInputChange('careerOpportunities.industries', industries);
                       }}
-                      className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                       placeholder="Industry"
                     />
                     <button
@@ -841,7 +1345,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       type="text"
                       value={faq.question || ''}
                       onChange={(e) => updateArrayItem('faqs', index, 'question', e.target.value)}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 text-sm"
                     />
                   </div>
                   <div className="mt-4">
@@ -850,7 +1354,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                       value={faq.answer || ''}
                       onChange={(e) => updateArrayItem('faqs', index, 'answer', e.target.value)}
                       rows={3}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 text-sm"
                     />
                   </div>
                   <button
@@ -886,7 +1390,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         type="text"
                         value={partner.name || ''}
                         onChange={(e) => updateArrayItem('hiringPartners', index, 'name', e.target.value)}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
                       />
                     </div>
                     <div>
@@ -895,7 +1399,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         type="url"
                         value={partner.logo || ''}
                         onChange={(e) => updateArrayItem('hiringPartners', index, 'logo', e.target.value)}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500 text-sm"
                       />
                     </div>
                   </div>
@@ -934,7 +1438,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                           type="text"
                           value={scholarship.name || ''}
                           onChange={(e) => updateArrayItem('scholarships.regular_scholarships', index, 'name', e.target.value)}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm"
                         />
                       </div>
                       <div>
@@ -943,7 +1447,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                           type="text"
                           value={scholarship.discount || ''}
                           onChange={(e) => updateArrayItem('scholarships.regular_scholarships', index, 'discount', e.target.value)}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm"
                           placeholder="20%"
                         />
                       </div>
@@ -954,7 +1458,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                         value={scholarship.eligibility || ''}
                         onChange={(e) => updateArrayItem('scholarships.regular_scholarships', index, 'eligibility', e.target.value)}
                         rows={2}
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm"
                       />
                     </div>
                     <button
@@ -985,7 +1489,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                     value={formData.bank_loan_assistance?.description || ''}
                     onChange={(e) => handleInputChange('bank_loan_assistance.description', e.target.value)}
                     rows={3}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
                   />
                 </div>
                 <div>
@@ -1000,7 +1504,7 @@ const ComprehensiveCourseForm = ({ isOpen, onClose, onSubmit, editingCourse }) =
                           partners[index] = e.target.value;
                           handleInputChange('bank_loan_assistance.loan_partners', partners);
                         }}
-                        className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
                         placeholder="Partner name"
                       />
                       <button

@@ -192,7 +192,6 @@ export default function CollegeFormModal({
   const resetForm = () => {
     setFormData({
       collegeKey: '',
-      database: { host: '', user: '', password: '', name: '' },
       university_info: {
         name: '', logo: '', banner_image: '', accreditations: [],
         about: { description: '', highlights: [], images: [] },
@@ -202,8 +201,7 @@ export default function CollegeFormModal({
         admission_process: [], placement: {
           partners: [], benefits: [], statistics: { average_package: '', highest_package: '' }
         }, faqs: []
-      },
-      redirects: { success: '' }
+      }
     });
   };
 
@@ -211,7 +209,6 @@ export default function CollegeFormModal({
 
   const tabs = [
     { id: 'basic', name: 'Basic Info', color: 'blue' },
-    { id: 'database', name: 'Database', color: 'purple' },
     { id: 'about', name: 'About', color: 'green' },
     { id: 'accreditations', name: 'Accreditations', color: 'yellow' },
     { id: 'courses', name: 'Courses', color: 'red' },
@@ -219,8 +216,7 @@ export default function CollegeFormModal({
     { id: 'degree', name: 'Degree Info', color: 'pink' },
     { id: 'admission', name: 'Admission', color: 'gray' },
     { id: 'placement', name: 'Placement', color: 'orange' },
-    { id: 'faqs', name: 'FAQs', color: 'teal' },
-    { id: 'redirects', name: 'Redirects', color: 'cyan' }
+    { id: 'faqs', name: 'FAQs', color: 'teal' }
   ];
 
   return (
@@ -277,8 +273,8 @@ export default function CollegeFormModal({
                         value={formData.collegeKey}
                         onChange={handleInputChange}
                         required
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="Enter unique college identifier (e.g., DYP, MIT, etc.)"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        placeholder="Enter unique college identifier (e.g., DYP, MIT, MANIPAL)"
                       />
                     </div>
                     <div>
@@ -289,8 +285,8 @@ export default function CollegeFormModal({
                         value={formData.university_info.name}
                         onChange={handleInputChange}
                         required
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="Enter university name"
+                        className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        placeholder="Enter full university name (e.g., Manipal University Jaipur)"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -301,8 +297,8 @@ export default function CollegeFormModal({
                           name="university_info.logo"
                           value={formData.university_info.logo}
                           onChange={handleInputChange}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                          placeholder="https://example.com/logo.png"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                          placeholder="Enter university logo URL (e.g., https://university.edu/logo.png)"
                         />
                       </div>
                       <div>
@@ -312,8 +308,8 @@ export default function CollegeFormModal({
                           name="university_info.banner_image"
                           value={formData.university_info.banner_image}
                           onChange={handleInputChange}
-                          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                          placeholder="https://example.com/banner.jpg"
+                          className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                          placeholder="Enter banner image URL (e.g., https://university.edu/banner.jpg)"
                         />
                       </div>
                     </div>
@@ -322,57 +318,6 @@ export default function CollegeFormModal({
               </div>
             )}
 
-            {/* Database Tab */}
-            {activeTab === 'database' && (
-              <div className="bg-purple-50 p-4 rounded-lg">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Database Configuration</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Host</label>
-                    <input
-                      type="text"
-                      name="database.host"
-                      value={formData.database.host}
-                      onChange={handleInputChange}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                      placeholder="localhost"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">User</label>
-                    <input
-                      type="text"
-                      name="database.user"
-                      value={formData.database.user}
-                      onChange={handleInputChange}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                      placeholder="EDUKYU_CRM_230500001"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Password</label>
-                    <input
-                      type="password"
-                      name="database.password"
-                      value={formData.database.password}
-                      onChange={handleInputChange}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Database Name</label>
-                    <input
-                      type="text"
-                      name="database.name"
-                      value={formData.database.name}
-                      onChange={handleInputChange}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                      placeholder="edukyu_enqbooks"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* About Tab */}
             {activeTab === 'about' && (
@@ -386,8 +331,8 @@ export default function CollegeFormModal({
                       value={formData.university_info.about.description}
                       onChange={handleInputChange}
                       rows={4}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                      placeholder="Enter university description..."
+                      className="mt-1 block w-full px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+                      placeholder="Enter detailed university description including history, mission, and key achievements..."
                     />
                   </div>
                   
@@ -400,8 +345,8 @@ export default function CollegeFormModal({
                           type="text"
                           value={highlight}
                           onChange={(e) => updateArrayItem('university_info.about.highlights', index, null, e.target.value)}
-                          className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                          placeholder="Enter highlight..."
+                          className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+                          placeholder="Enter university highlight (e.g., NAAC A+ Accredited, 50+ Years Excellence)"
                         />
                         <button
                           type="button"
@@ -431,8 +376,8 @@ export default function CollegeFormModal({
                           type="url"
                           value={image}
                           onChange={(e) => updateArrayItem('university_info.about.images', index, null, e.target.value)}
-                          className="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                          placeholder="Enter image URL..."
+                          className="flex-1 px-4 py-3 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+                          placeholder="Enter university image URL (e.g., https://university.edu/campus.jpg)"
                         />
                         <button
                           type="button"
@@ -533,23 +478,7 @@ export default function CollegeFormModal({
               />
             )}
 
-            {/* Redirects Tab */}
-            {activeTab === 'redirects' && (
-              <div className="bg-cyan-50 p-4 rounded-lg">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Redirect URLs</h4>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Success Redirect URL</label>
-                  <input
-                    type="url"
-                    name="redirects.success"
-                    value={formData.redirects.success}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
-                    placeholder="https://example.com/thank-you"
-                  />
-                </div>
-              </div>
-            )}
+
 
             {/* Form Actions */}
             <div className="flex justify-end space-x-3 pt-6 border-t">
